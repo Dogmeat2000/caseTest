@@ -16,6 +16,6 @@ This project leverages automated continuous integration workflows to scan for co
 
 | Vulnerability Vector | Automation Status | Direct Dashboard Links |
 | :--- | :---: | :--- |
-| **Trivy Container/FS Scanner** | [![Trivy Security Pipeline](https://github.com/Dogmeat2000/caseTest/actions/workflows/trivy.yml/badge.svg)](https://github.com/Dogmeat2000/caseTest/actions/workflows/trivy.yml) | [GitHub Actions Execution History](https://github.com/Dogmeat2000/caseTest/actions/workflows/trivy.yml) |
+| **Trivy Container/FS Scanner** | [![Trivy Security Pipeline](https://github.com/Dogmeat2000/caseTest/actions/workflows/trivy.yml/badge.svg)](https://github.com/Dogmeat2000/caseTest/actions/workflows/trivy.yml) | [View Trivy Code Scanning Alerts](https://github.com/Dogmeat2000/caseTest/security/code-scanning) |
 | **GitHub Dependabot** | ![Dependabot Enabled](https://img.shields.io/badge/Dependabot-Active-blue?style=flat&logo=dependabot) | [Review Active Dependabot Alerts](https://github.com/Dogmeat2000/caseTest/security/dependabot) |
 | **Supply Chain Malware** | ![Malware Protection Enabled](https://img.shields.io/badge/Malware--Scan-Active-success?style=flat&logo=github) | [Review Repository Malware Status](https://github.com/Dogmeat2000/caseTest/security/malware) |
