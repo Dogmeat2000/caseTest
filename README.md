@@ -7,3 +7,8 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Dogmeat2000_caseTest&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Dogmeat2000_caseTest)
 
 Public SonarQube report/overview: https://sonarcloud.io/project/overview?id=Dogmeat2000_caseTest
+
+
+GitHub dependabot alerts/scans:
+- Malwware          : https://github.com/Dogmeat2000/caseTest/security/malware
+- Vulnerabilities   : https://github.com/Dogmeat2000/caseTest/security/dependabot
