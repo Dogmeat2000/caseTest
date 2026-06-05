@@ -1,0 +1,47 @@
+name: Update Security Badges
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Updates every hour automatically
+  workflow_run:
+    workflows: ["trivy", "SonarCloud analysis"] # Or update immediately when your scans finish
+    types: [completed]
+  workflow_dispatch: # Allows manual click trigger
+
+jobs:
+  update-counts:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: read
+    steps:
+      - name: Fetch Dependabot and Trivy Alert Counts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Query open Dependabot vulnerability alerts
+          DEPENDABOT_COUNT=$(gh api repos/${{ github.repository }}/dependabot/alerts?state=open --jq '. | length')
+          echo "DEPENDABOT_COUNT=$DEPENDABOT_COUNT" >> $GITHUB_ENV
+
+          # Query open Trivy alerts via the Code Scanning API
+          TRIVY_COUNT=$(gh api repos/${{ github.repository }}/code-scanning/alerts?tool_name=Trivy&state=open --jq '. | length' 2>/dev/null || echo "0")
+          echo "TRIVY_COUNT=$TRIVY_COUNT" >> $GITHUB_ENV
+
+      - name: Update Dependabot Badge Data
+        uses: Schneegans/dynamic-badges-action@v1.8.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 866c8a4d1b81b16604e625af0368cd13 # <-- Replace with your real Gist ID
+          filename: dependabot-count.json
+          label: Dependabot Alerts
+          message: ${{ env.DEPENDABOT_COUNT }}
+          color: ${{ env.DEPENDABOT_COUNT > 0 && 'red' || 'green' }}
+
+      - name: Update Trivy Badge Data
+        uses: Schneegans/dynamic-badges-action@v1.8.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 866c8a4d1b81b16604e625af0368cd13 # <-- Replace with your real Gist ID
+          filename: trivy-count.json
+          label: Trivy Alerts
+          message: ${{ env.TRIVY_COUNT }}
+          color: ${{ env.TRIVY_COUNT > 0 && 'red' || 'green' }}
