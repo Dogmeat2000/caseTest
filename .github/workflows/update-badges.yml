@@ -20,14 +20,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Query open Dependabot vulnerability alerts and fallback to 0 if empty/null
-          RAW_DEP=$(gh api repos/${{ github.repository }}/dependabot/alerts?state=open --jq '. | length' 2>/dev/null || echo "0")
-          if [ "$RAW_DEP" = "[]" ] || [ -z "$RAW_DEP" ]; then DEPENDABOT_COUNT="0"; else DEPENDABOT_COUNT="$RAW_DEP"; fi
+          # Safe evaluation: Force integer 0 if the endpoint returns an empty array or null
+          DEPENDABOT_COUNT=$(gh api repos/${{ github.repository }}/dependabot/alerts?state=open --jq 'if . == null or . == [] then 0 else length end')
           echo "DEPENDABOT_COUNT=$DEPENDABOT_COUNT" >> $GITHUB_ENV
 
-          # Query open Trivy alerts via the Code Scanning API and fallback to 0 if empty/null
-          RAW_TRIVY=$(gh api repos/${{ github.repository }}/code-scanning/alerts?tool_name=Trivy&state=open --jq '. | length' 2>/dev/null || echo "0")
-          if [ "$RAW_TRIVY" = "[]" ] || [ -z "$RAW_TRIVY" ]; then TRIVY_COUNT="0"; else TRIVY_COUNT="$RAW_TRIVY"; fi
+          # Safe evaluation: Force integer 0 if Trivy logs are empty or null
+          TRIVY_COUNT=$(gh api repos/${{ github.repository }}/code-scanning/alerts?tool_name=Trivy&state=open --jq 'if . == null or . == [] then 0 else length end' 2>/dev/null || echo "0")
           echo "TRIVY_COUNT=$TRIVY_COUNT" >> $GITHUB_ENV
 
       - name: Update Dependabot Badge Data
