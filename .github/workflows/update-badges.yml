@@ -20,12 +20,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Query open Dependabot vulnerability alerts
-          DEPENDABOT_COUNT=$(gh api repos/${{ github.repository }}/dependabot/alerts?state=open --jq '. | length')
+          # Query open Dependabot vulnerability alerts and fallback to 0 if empty/null
+          RAW_DEP=$(gh api repos/${{ github.repository }}/dependabot/alerts?state=open --jq '. | length' 2>/dev/null || echo "0")
+          if [ "$RAW_DEP" = "[]" ] || [ -z "$RAW_DEP" ]; then DEPENDABOT_COUNT="0"; else DEPENDABOT_COUNT="$RAW_DEP"; fi
           echo "DEPENDABOT_COUNT=$DEPENDABOT_COUNT" >> $GITHUB_ENV
 
-          # Query open Trivy alerts via the Code Scanning API
-          TRIVY_COUNT=$(gh api repos/${{ github.repository }}/code-scanning/alerts?tool_name=Trivy&state=open --jq '. | length' 2>/dev/null || echo "0")
+          # Query open Trivy alerts via the Code Scanning API and fallback to 0 if empty/null
+          RAW_TRIVY=$(gh api repos/${{ github.repository }}/code-scanning/alerts?tool_name=Trivy&state=open --jq '. | length' 2>/dev/null || echo "0")
+          if [ "$RAW_TRIVY" = "[]" ] || [ -z "$RAW_TRIVY" ]; then TRIVY_COUNT="0"; else TRIVY_COUNT="$RAW_TRIVY"; fi
           echo "TRIVY_COUNT=$TRIVY_COUNT" >> $GITHUB_ENV
 
       - name: Update Dependabot Badge Data
