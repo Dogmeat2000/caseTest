@@ -1,14 +1,21 @@
-[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg)](https://sonarcloud.io/summary/new_code?id=Dogmeat2000_caseTest)
+# 🛡️ Automated Security & Quality Telemetry
 
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Dogmeat2000_caseTest&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Dogmeat2000_caseTest)
+This project leverages automated continuous integration workflows to scan for code quality, architectural degradation, and supply chain security vulnerabilities on every push to the main branch.
 
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Dogmeat2000_caseTest&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Dogmeat2000_caseTest)
+## 📊 Static Application Security Testing (SAST)
 
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Dogmeat2000_caseTest&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Dogmeat2000_caseTest)
+| Analysis Engine | Quality Gate Status | Security Rating | Code Smells | Open Vulnerabilities |
+| :--- | :---: | :---: | :---: | :---: |
+| **SonarQube Cloud** | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Dogmeat2000_caseTest&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Dogmeat2000_caseTest) | [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Dogmeat2000_caseTest&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Dogmeat2000_caseTest) | [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Dogmeat2000_caseTest&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=Dogmeat2000_caseTest) | [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Dogmeat2000_caseTest&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Dogmeat2000_caseTest) |
 
-Public SonarQube report/overview: https://sonarcloud.io/project/overview?id=Dogmeat2000_caseTest
+🔗 **Deep Dive Analysis Dashboard:** [Access Public SonarQube Overview Report](https://sonarcloud.io/project/overview?id=Dogmeat2000_caseTest)
 
+---
 
-GitHub dependabot alerts/scans:
-- Malwware          : https://github.com/Dogmeat2000/caseTest/security/malware
-- Vulnerabilities   : https://github.com/Dogmeat2000/caseTest/security/dependabot
+## 📦 Software Supply Chain & Dependency Analysis (SCA)
+
+| Vulnerability Vector | Automation Status | Direct Dashboard Links |
+| :--- | :---: | :--- |
+| **Trivy Container/FS Scanner** | [![Trivy Security Pipeline](https://github.com/Dogmeat2000/caseTest/actions/workflows/trivy.yml/badge.svg)](https://github.com/Dogmeat2000/caseTest/actions/workflows/trivy.yml) | [GitHub Actions Execution History](https://github.com/Dogmeat2000/caseTest/actions/workflows/trivy.yml) |
+| **GitHub Dependabot** | ![Dependabot Enabled](https://img.shields.io/badge/Dependabot-Active-blue?style=flat&logo=dependabot) | [Review Active Dependabot Alerts](https://github.com/Dogmeat2000/caseTest/security/dependabot) |
+| **Supply Chain Malware** | ![Malware Protection Enabled](https://img.shields.io/badge/Malware--Scan-Active-success?style=flat&logo=github) | [Review Repository Malware Status](https://github.com/Dogmeat2000/caseTest/security/malware) |
