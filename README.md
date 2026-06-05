@@ -25,7 +25,8 @@ This project leverages automated continuous integration workflows to scan for co
 
 ## 📦 Software Supply Chain & Dependency Analysis (SCA)
 
-| Vulnerability Vector | Live Active Counts | Direct Dashboard Links |
+| Vulnerability Vector | Current Active Count | Direct Dashboard Links |
 | :--- | :---: | :--- |
 | **Trivy Container/FS Scanner** | ![Trivy Alerts Count](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Dogmeat2000/866c8a4d1b81b16604e625af0368cd13/raw/trivy-count.json) | [View Trivy Code Scanning Alerts](https://github.com/Dogmeat2000/caseTest/security/code-scanning) |
 | **GitHub Dependabot** | ![Dependabot Alerts Count](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Dogmeat2000/866c8a4d1b81b16604e625af0368cd13/raw/dependabot-count.json) | [Review Active Dependabot Alerts](https://github.com/Dogmeat2000/caseTest/security/dependabot) |
+| **Supply Chain Malware** | ![Malware Protection Enabled](https://img.shields.io/badge/Malware--Scan-Active-success?style=flat&logo=github) | [Review Repository Malware Status](https://github.com/Dogmeat2000/caseTest/security/malware) |
