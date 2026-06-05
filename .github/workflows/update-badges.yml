@@ -20,19 +20,29 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Safe evaluation: Force integer 0 if the endpoint returns an empty array or null
-          DEPENDABOT_COUNT=$(gh api repos/${{ github.repository }}/dependabot/alerts?state=open --jq 'if . == null or . == [] then 0 else length end')
-          echo "DEPENDABOT_COUNT=$DEPENDABOT_COUNT" >> $GITHUB_ENV
+          # 1. Fetch Dependabot raw output and explicitly handle blank responses
+          RAW_DEP=$(gh api repos/${{ github.repository }}/dependabot/alerts?state=open 2>/dev/null || echo "")
+          if [ -z "$RAW_DEP" ] || [ "$RAW_DEP" = "[]" ]; then
+            echo "DEPENDABOT_COUNT=0" >> $GITHUB_ENV
+          else
+            DEP_LEN=$(echo "$RAW_DEP" | jq '. | length' 2>/dev/null || echo "0")
+            echo "DEPENDABOT_COUNT=$DEP_LEN" >> $GITHUB_ENV
+          fi
 
-          # Safe evaluation: Force integer 0 if Trivy logs are empty or null
-          TRIVY_COUNT=$(gh api repos/${{ github.repository }}/code-scanning/alerts?tool_name=Trivy&state=open --jq 'if . == null or . == [] then 0 else length end' 2>/dev/null || echo "0")
-          echo "TRIVY_COUNT=$TRIVY_COUNT" >> $GITHUB_ENV
+          # 2. Fetch Trivy raw output and explicitly handle blank responses
+          RAW_TRIVY=$(gh api repos/${{ github.repository }}/code-scanning/alerts?tool_name=Trivy&state=open 2>/dev/null || echo "")
+          if [ -z "$RAW_TRIVY" ] || [ "$RAW_TRIVY" = "[]" ]; then
+            echo "TRIVY_COUNT=0" >> $GITHUB_ENV
+          else
+            TRIVY_LEN=$(echo "$RAW_TRIVY" | jq '. | length' 2>/dev/null || echo "0")
+            echo "TRIVY_COUNT=$TRIVY_LEN" >> $GITHUB_ENV
+          fi
 
       - name: Update Dependabot Badge Data
         uses: Schneegans/dynamic-badges-action@v1.8.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
-          gistID: 866c8a4d1b81b16604e625af0368cd13 # <-- Replace with your real Gist ID
+          gistID: 866c8a4d1b81b16604e625af0368cd13
           filename: dependabot-count.json
           label: Dependabot Alerts
           message: ${{ env.DEPENDABOT_COUNT }}
@@ -42,7 +52,7 @@ jobs:
         uses: Schneegans/dynamic-badges-action@v1.8.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
-          gistID: 866c8a4d1b81b16604e625af0368cd13 # <-- Replace with your real Gist ID
+          gistID: 866c8a4d1b81b16604e625af0368cd13
           filename: trivy-count.json
           label: Trivy Alerts
           message: ${{ env.TRIVY_COUNT }}
